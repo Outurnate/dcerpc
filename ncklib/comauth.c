@@ -405,9 +405,7 @@ PRIVATE void rpc__auth_info_reference
   rpc_auth_info_p_t   auth_info
 )
 {
-#ifdef DEBUG
     const char *info_type = auth_info->is_server?"server":"client";
-#endif
 
     RPC_DBG_PRINTF(rpc_e_dbg_auth, 3, ("(rpc__auth_info_reference) %p: bumping %s refcount (was %d, now %d)\n",
         auth_info,

@@ -581,9 +581,7 @@ INTERNAL void ping_common
 )
 {
     rpc_dg_xmitq_p_t xq = &scall->c.xq;
-#ifdef DEBUG
     rpc_dg_pkt_hdr_p_t hdrp = rqe->hdrp;
-#endif
 
     RPC_LOCK_ASSERT(0);
     RPC_DG_CALL_LOCK_ASSERT(&scall->c);

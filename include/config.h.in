@@ -1,0 +1,73 @@
+#define ATTRIBUTE_UNUSED __attribute__((unused))
+#undef AUTH_DUMMY
+#undef AUTH_SCHANNEL
+#undef BUILD_CODESET
+#undef BUILD_RPC_NS_LDAP
+#undef DEBUG
+#undef DEMO_PROGS
+#undef DUMPERS
+#undef ENABLE_AUTH_SCHANNEL
+#undef ENABLE_DCOM
+#define ENABLE_NAF_IP /**/
+#define ENABLE_NAF_NP /**/
+#define ENABLE_PROT_NCACN /**/
+#define ENABLE_PROT_NCADG /**/
+#define GETHOSTBYNAME_R_ARGS 6
+#define HAVE_BACKTRACE 1
+#define HAVE_BACKTRACE_SYMBOLS 1
+#define HAVE_BACKTRACE_SYMBOLS_FD 1
+#define HAVE_CATOPEN 1
+#define HAVE_DLFCN_H 1
+#define HAVE_EXECINFO_H 1
+#define HAVE_FEATURES_H 1
+#define HAVE_GETHOSTBYNAME_R 1
+#define HAVE_GETOPT_H 1
+#define HAVE_GETTIMEOFDAY 1
+#define HAVE_GSSAPI_GSSAPI_EXT_H 1
+#define HAVE_GSSAPI_GSSAPI_H 1
+#define HAVE_GSSAPI_GSSAPI_KRB5_H 1
+#define HAVE_INTTYPES_H 1
+#define HAVE_KRB5_H 1
+#define HAVE_NET_IF_ARP_H 1
+#define HAVE_NL_TYPES_H 1
+#define HAVE_PTHREAD_ATFORK 1
+#define HAVE_PTHREAD_H 1
+#define HAVE_SCANDIR 1
+#define HAVE_SCHED_YIELD 1
+#define HAVE_SETPGRP 1
+#define HAVE_SOCKET 1
+#define HAVE_STDINT_H 1
+#define HAVE_STDIO_H 1
+#define HAVE_STDLIB_H 1
+#define HAVE_STRINGS_H 1
+#define HAVE_STRING_H 1
+#define HAVE_SYS_CDEFS_H 1
+#define HAVE_SYS_STAT_H 1
+#define HAVE_SYS_SYSCALL_H 1
+#define HAVE_SYS_TIME_H 1
+#define HAVE_SYS_TYPES_H 1
+#define HAVE_SYS_UN_H 1
+#define HAVE_UNISTD_H 1
+#define HAVE_VASPRINTF 1
+#define NAF_IP 1
+#define NAF_NP 1
+#undef NAF_UXD
+#define PACKAGE "dce-rpc"
+#define PACKAGE_BUGREPORT ""
+#define PACKAGE_NAME "DCE RPC"
+#define PACKAGE_STRING "DCE RPC "@VERSION@
+#define PACKAGE_TARNAME "dce-rpc"
+#define PACKAGE_URL ""
+#define PACKAGE_VERSION @VERSION@
+#define PROT_NCACN 1
+#define PROT_NCADG 1
+#define RPC_C_NP_DIR "/usr/local/var/rpc"
+#define RPC_C_UXD_DIR "/usr/local/var/rpc"
+#define SETPGRP_ARGS 0
+#define STDC_HEADERS 1
+#define USE_LOOPBACK 1
+#define _BSD 1
+#define _GNU_SOURCE 1
+#define _REENTRANT 1
+#define __EXTENSIONS__ 1
+#define VERSION @VERSION@
