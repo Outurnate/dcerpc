@@ -1,7 +1,6 @@
 dceidl = [
   dceidl_executable,
   '@INPUT@', '-header', '@OUTPUT0@', '-cstub', '@OUTPUT1@',
-  '-I../include',
   '-keep', 'c_source', '-no_cpp', '-v', '-no_mepv', '-server', 'none',
   idl_flags
 ]
@@ -82,13 +81,15 @@ rpc = static_library('rpc',
   'rpcrand.c',
   'rpctimer.c',
   include_directories: [ platform_includes, common_includes ],
-  c_args : [ '-DCATALOG_DIR="/usr/local/share/dce-rpc"' ]
+  c_args : [ '-DCATALOG_DIR="/usr/local/share/dce-rpc"' ],
+  dependencies : [ dce_gen_dependency ]
 )
 
 trans = static_library('trans',
   'comsoc.c',
   'comsoc_bsd.c',
-  include_directories: [ platform_includes, common_includes ]
+  include_directories: [ platform_includes, common_includes ],
+  dependencies : [ dce_gen_dependency ]
 )
 
 mgmt_stubs = static_library('mgmt_stubs',
@@ -118,7 +119,8 @@ prot_ncacn = static_library('prot_ncacn',
   'cnsclsm.c',
   'cnsm.c',
   'cnxfer.c',
-  include_directories: [ platform_includes, common_includes ]
+  include_directories: [ platform_includes, common_includes ],
+  dependencies : [ dce_gen_dependency ]
 )
 
 ncadg_stubs = static_library('ncadg_stubs',
@@ -152,16 +154,17 @@ prot_ncadg = static_library('prot_ncadg',
   'dgsoc.c',
   'dgutl.c',
   'dgxq.c',
-  dce_gen,
   include_directories: [ platform_includes, common_includes ],
-  link_with : ncadg_stubs
+  link_with : ncadg_stubs,
+  dependencies : [ dce_gen_dependency ]
 )
 
 naf_ip = static_library('naf_ip',
   'ipnaf.c',
   'ipnaf_linux.c',
   'twr_ip.c',
-  include_directories: [ platform_includes, common_includes ]
+  include_directories: [ platform_includes, common_includes ],
+  dependencies : [ dce_gen_dependency ]
 )
 
 naf_np = static_library('naf_np',
@@ -169,7 +172,8 @@ naf_np = static_library('naf_np',
   'npnaf_linux.c',
   'twr_np.c',
   'twr_uxd.c',
-  include_directories: [ platform_includes, common_includes ]
+  include_directories: [ platform_includes, common_includes ],
+  dependencies : [ dce_gen_dependency ]
 )
 
 auth_gss_negotiate = static_library('auth_gss_negotiate',
@@ -184,7 +188,8 @@ nck = static_library('nck',
   'mgmt.c',
   'rpcsvc.c',
   include_directories: [ platform_includes, common_includes ],
-  link_with : [ com, rpc, trans, mgmt_stubs, prot_ncacn, prot_ncadg, naf_ip, naf_np, auth_gss_negotiate ]
+  link_with : [ com, rpc, trans, mgmt_stubs, prot_ncacn, prot_ncadg, naf_ip, naf_np, auth_gss_negotiate ],
+  dependencies : [ dce_gen_dependency ]
 )
 
 nck_dependency = declare_dependency(

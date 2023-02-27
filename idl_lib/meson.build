@@ -57,7 +57,7 @@ idl = static_library('idl',
   'sscmaset.c',
   'sscmasrv.c',
   include_directories : [ common_includes ],
-  dependencies : [ nck_dependency ],
+  dependencies : [ nck_dependency, dce_gen_dependency ],
   c_args : [ '-DMIA', '-D_POSIX_C_SOURCE', '-DDCETHREAD_ENFORCE_API' ]
 )
 

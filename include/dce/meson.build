@@ -13,7 +13,6 @@ configure_file(input : 'ndrtypes.h.in', output : 'ndrtypes.h', configuration : c
 dceidl = [
   dceidl_executable,
   '@INPUT@', '-header', '@OUTPUT@',
-  '-I../include',
   '-cepv', '-client', 'none', '-server', 'none', '-no_mepv',
   idl_flags
 ]

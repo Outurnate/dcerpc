@@ -1,4 +1,9 @@
-idl_compiler_includes = include_directories('.', '..')
+idl_compiler_includes = include_directories('.')
+
+flex = find_program('flex', required : true)
+bison = find_program('bison', required : true)
+flex_generator  = generator(flex,  output : [ '@BASENAME@.c', '@BASENAME@.h' ], arguments : [ '--outfile=@OUTPUT0@', '--header-file=@OUTPUT1@', '@INPUT@' ])
+bison_generator = generator(bison, output : [ '@BASENAME@.c', '@BASENAME@.h' ], arguments : [  '--output=@OUTPUT0@', '--defines=@OUTPUT1@',     '@INPUT@' ])
 
 lfiles = flex_generator.process('acf_l.l', 'nidl_l.l')
 pfiles = bison_generator.process('acf_y.y', 'nidl_y.y')
@@ -63,6 +68,7 @@ dceidl_executable = executable('dceidl',
     '-DYYERROR_VERBOSE=1',
     '-DYYDEBUG=1',
     '-DVERSION="' + meson.project_version() + '"',
-    '-DATTRIBUTE_UNUSED=__attribute__((unused))'
+    '-DATTRIBUTE_UNUSED=__attribute__((unused))',
+    '-I' + meson.global_build_root() # HACK - flex seems to ignore --header-file and drop headers in the current working directory
   ]
 )

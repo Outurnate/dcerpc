@@ -2,11 +2,6 @@ project('DCE RPC', 'c', version : '1.1.0.7', default_options : [ 'warning_level=
 
 subdir('include')
 
-flex = find_program('flex', required: true)
-bison = find_program('bison', required: true)
-flex_generator  = generator(flex,  output : [ '@BASENAME@.c', '@BASENAME@.h' ], arguments : [ '--outfile=@OUTPUT0@', '--header-file=@OUTPUT1@', '@INPUT@' ])
-bison_generator = generator(bison, output : [ '@BASENAME@.c', '@BASENAME@.h' ], arguments : [  '--output=@OUTPUT0@', '--defines=@OUTPUT1@',     '@INPUT@' ])
-
 add_project_arguments('-fno-strict-aliasing', language : 'c')
 add_project_arguments('-Wmissing-format-attribute', language : 'c')
 add_project_arguments('-Wbad-function-cast', language : 'c')
@@ -37,7 +32,9 @@ idl_flags = [
   '-cc_cmd', meson.get_compiler('c', native : false).cmd_array(),
   '-cc_opt', '-c -D_GNU_SOURCE -D_REENTRANT -D_POSIX_C_SOURCE=3',
   '-cpp_cmd', meson.get_compiler('c', native : false).cmd_array(),
-  '-cpp_opt', '-E -x c-header'
+  '-cpp_opt', '-E -x c-header',
+  '-I', std_idl_includes[0],
+  '-I', std_idl_includes[1]
 ]
 
 subdir('compat')
