@@ -193,7 +193,6 @@ other           .
 %option reentrant
 %option prefix="acf_yy"
 %option yylineno
-%option header-file="acf_l.h"
 %option bison-bridge
 %option bison-locations
 %option noyywrap

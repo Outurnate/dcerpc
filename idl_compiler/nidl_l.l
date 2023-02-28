@@ -151,7 +151,6 @@ other           .
 %option reentrant
 %option prefix="nidl_yy"
 %option yylineno
-%option header-file="nidl_l.h"
 %option bison-bridge
 %option bison-locations
 %option noyywrap
