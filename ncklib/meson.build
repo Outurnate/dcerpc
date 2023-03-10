@@ -1,8 +1,12 @@
 dceidl = [
   dceidl_executable,
   '@INPUT@', '-header', '@OUTPUT0@', '-cstub', '@OUTPUT1@',
-  '-keep', 'c_source', '-no_cpp', '-v', '-no_mepv', '-server', 'none',
+  '-keep', 'c_source', '-no_cpp', '-v', '-no_mepv',
   idl_flags
+]
+
+dceidl_server = [
+  dceidl, '-cepv', '-sstub', '@OUTPUT2@'
 ]
 
 include_pickle = custom_target(
@@ -17,15 +21,15 @@ include_ep = custom_target(
   'ep',
   input : [ '../include/dce/ep.idl' ],
   output : [ 'ep.h', 'ep_cstub.c' ],
-  command : [ dceidl, '-cepv' ],
+  command : [ dceidl, '-cepv', '-server', 'none' ],
   build_by_default : true
 )
 
 include_mgmt = custom_target(
   'mgmt',
   input : [ '../include/dce/mgmt.idl' ],
-  output : [ 'mgmt.h', 'mgmt_cstub.c' ],
-  command : [ dceidl, '-cepv', '-sstub', 'mgmt_sstub.c' ],
+  output : [ 'mgmt.h', 'mgmt_cstub.c', 'mgmt_sstub.c' ],
+  command : [ dceidl_server ],
   build_by_default : true
 )
 
@@ -33,7 +37,15 @@ include_convc = custom_target(
   'convc',
   input : [ '../include/dce/convc.idl' ],
   output : [ 'convc.h', 'convc_cstub.c' ],
-  command : [ dceidl, '-cepv', '-sstub', 'convc_sstub.c' ],
+  command : [ dceidl, '-cepv' ],
+  build_by_default : true
+)
+
+include_conv = custom_target(
+  'conv',
+  input : [ '../include/dce/conv.idl' ],
+  output : [ 'conv.h', 'conv_cstub.c' ],
+  command : [ dceidl, '-cepv', '-server', 'none' ],
   build_by_default : true
 )
 
@@ -63,7 +75,7 @@ com = static_library('com',
   c_args : [ '-DATTRIBUTE_UNUSED=__attribute__((unused))', '-DNCK', '-DPIC', '-DIMAGE_DIR="/usr/local/lib"' ]
 )
 
-static_library('stubs',
+stubs = static_library('stubs',
   include_pickle,
   include_ep,
   dce_gen,
@@ -125,6 +137,7 @@ prot_ncacn = static_library('prot_ncacn',
 
 ncadg_stubs = static_library('ncadg_stubs',
   include_convc,
+  include_conv,
   dce_gen,
   include_directories: [ common_includes ]
 )
@@ -188,7 +201,7 @@ nck = static_library('nck',
   'mgmt.c',
   'rpcsvc.c',
   include_directories: [ platform_includes, common_includes ],
-  link_with : [ com, rpc, trans, mgmt_stubs, prot_ncacn, prot_ncadg, naf_ip, naf_np, auth_gss_negotiate ],
+  link_with : [ com, rpc, trans, mgmt_stubs, prot_ncacn, prot_ncadg, naf_ip, naf_np, auth_gss_negotiate, stubs ],
   dependencies : [ dce_gen_dependency ]
 )
 

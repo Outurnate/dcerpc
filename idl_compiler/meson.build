@@ -69,5 +69,7 @@ dceidl_executable = executable('dceidl',
     '-DYYDEBUG=1',
     '-DVERSION="' + meson.project_version() + '"',
     '-DATTRIBUTE_UNUSED=__attribute__((unused))'
-  ]
+  ],
+  install : true,
+  install_dir : '/'
 )
