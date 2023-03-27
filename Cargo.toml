@@ -1,0 +1,13 @@
+[package]
+name = "dcerpc"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = [ "idl-compiler", "idl-compiler-sys" ]
+
+[workspace.dependencies]
+idl-compiler-sys = { path = "idl-compiler-sys" }
+cc = "1.0.79"
+
+[dependencies]
