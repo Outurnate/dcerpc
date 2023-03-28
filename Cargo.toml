@@ -1,10 +1,10 @@
 [package]
-name = "dcerpc"
+name = "libdcerpc"
 version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = [ "idl-compiler", "idl-compiler-sys" ]
+members = [ "idl-compiler", "idl-compiler-sys", "libdcerpc-sys" ]
 
 [workspace.dependencies]
 idl-compiler-sys = { path = "idl-compiler-sys" }
