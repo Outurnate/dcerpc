@@ -95,14 +95,14 @@
 #include <nidl.h>
 #include <driver.h>             /* Main driver defs */
 
-int main
+int idl_compile
 (
     int  argc,
     char **argv
 )
 {
     if (!DRIVER_main(argc, argv))
-        exit(pgm_error);
+        return pgm_error;
 
-    exit (pgm_ok);
+    return pgm_ok;
 }

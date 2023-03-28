@@ -43,6 +43,8 @@ fn configure_file<'a>(input: impl AsRef<Path>, output: impl AsRef<Path>, replace
 
 fn main()
 {
+  system_deps::Config::new().probe().unwrap();
+
   let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
 
   flex(&out_dir, "acf_l.c", "acf_l.h", "acf_l.l");
@@ -112,5 +114,11 @@ fn main()
     .define("YYDEBUG", "1")
     .define("VERSION", "\"1.1.0.7\"")
     .define("ATTRIBUTE_UNUSED", "__attribute__((unused))")
+    .define("_XOPEN_SOURCE", "500")
+    .define("__EXTENSIONS__", None)
+    .define("_POSIX_PTHREAD_SEMANTICS", None)
+    .define("_ALL_SOURCE", "1")
+    .define("_REENTRANT", None)
+    //.define("HAVE_CONFIG_H", None)
     .compile("idl_compiler");
 }
