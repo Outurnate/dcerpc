@@ -95,6 +95,9 @@
 **
 */
 
+#define NCK
+#define PIC
+
 #include <commonp.h>    /* Common internals for RPC Runtime system  */
 #include <com.h>        /* Externals for Common Services component  */
 #include <comprot.h>    /* Externals for common Protocol Services   */

@@ -89,6 +89,9 @@
 **      Routines for PAC pickling.
 */
 
+#define NCK
+#define PIC
+
 /*
  * Functions
  */

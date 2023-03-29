@@ -92,6 +92,9 @@
 **
 */
 
+#define NCK
+#define PIC
+
 /*
  * Include files
  */

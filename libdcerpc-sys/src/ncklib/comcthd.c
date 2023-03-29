@@ -93,6 +93,9 @@
 **
 */
 
+#define NCK
+#define PIC
+
 #include <commonp.h>    /* Common declarations for all RPC runtime  */
 #include <com.h>        /* Common communications services           */
 #include <comprot.h>    /* Common protocol services                 */

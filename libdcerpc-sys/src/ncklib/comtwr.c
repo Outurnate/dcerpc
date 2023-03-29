@@ -93,6 +93,9 @@
 **
 **/
 
+#define NCK
+#define PIC
+
 #include <commonp.h>    /* Private defs for Common component            */
 #include <com.h>        /* Private COM defs for other RPC components    */
 #include <comp.h>       /* Privates for COM Services component          */

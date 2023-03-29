@@ -105,6 +105,9 @@
 **
 */
 
+#define NCK
+#define PIC
+
 #ifdef HAVE_SYS_FD_SET_H
 #include <sys/fd_set.h>
 #endif

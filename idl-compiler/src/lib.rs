@@ -112,39 +112,35 @@ impl Builder
     {
       command.arg("-keep");
       command.arg("c_source");
-
-      if let Some(cstub) = self.cstub
-      {
-        command.arg("-cstub");
-        command.arg(cstub);
-      }
-      else
-      {
-        command.arg("-client");
-        command.arg("none");
-      }
-
-      if let Some(sstub) = self.sstub
-      {
-        command.arg("-sstub");
-        command.arg(sstub);
-      }
-      else
-      {
-        command.arg("-server");
-        command.arg("none");
-      }
     }
+    
+    if let Some(cstub) = self.cstub
+    {
+      command.arg("-cstub");
+      command.arg(cstub);
+    }
+    else
+    {
+      command.arg("-client");
+      command.arg("none");
+    }
+
+    if let Some(sstub) = self.sstub
+    {
+      command.arg("-sstub");
+      command.arg(sstub);
+    }
+    else
+    {
+      command.arg("-server");
+      command.arg("none");
+    }
+
     if !self.preprocess
     {
       command.arg("-no_cpp");
     }
-
-
-    for arg in command.get_args()
-    {
-      println!("{}", arg.to_string_lossy());
-    }
+    
     println!("{}", std::str::from_utf8(&command.output().unwrap().stderr).unwrap());
   }
 }

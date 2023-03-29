@@ -90,6 +90,9 @@
 **
 */
 
+#define NCK
+#define PIC
+
 #include <commonp.h>
 #include <com.h>
 #include <comprot.h>

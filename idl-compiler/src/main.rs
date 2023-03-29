@@ -1,5 +1,4 @@
 use std::env;
-use run::run_idl_compile;
 use std::ffi::{c_int, CString, c_char};
 use idl_compiler_sys::idl_compile;
 

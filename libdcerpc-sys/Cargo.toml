@@ -7,3 +7,4 @@ links = "dcerpc"
 [build-dependencies]
 cc.workspace = true
 idl-compiler.workspace = true
+bindgen = "0.64.0"

@@ -91,6 +91,9 @@
 **
 */
 
+#define NCK
+#define PIC
+
 #define _DCE_PTHREAD_EXC_H
 
 #include <commonp.h>    /* Common internals for RPC Runtime System      */
