@@ -75,6 +75,7 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
+#undef DCETHREAD_ENFORCE_API
 #include <dce/dcethread.h>
 #include <signal.h>
 #include <errno.h>

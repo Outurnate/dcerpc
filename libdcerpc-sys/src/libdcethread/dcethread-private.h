@@ -77,6 +77,7 @@
 #ifndef __DCETHREAD_PRIVATE_H__
 #define __DCETHREAD_PRIVATE_H__
 
+#undef DCETHREAD_ENFORCE_API
 #include <dce/dcethread.h>
 
 struct _dcethread

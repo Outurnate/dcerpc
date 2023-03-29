@@ -77,6 +77,7 @@
 #ifndef __DCETHREAD_EXCEPTION_H__
 #define __DCETHREAD_EXCEPTION_H__
 
+#undef DCETHREAD_ENFORCE_API
 #include <dce/dcethread.h>
 
 void dcethread__init_exceptions(void);

@@ -8,6 +8,7 @@ members = [ "idl-compiler", "idl-compiler-sys", "libdcerpc-sys" ]
 
 [workspace.dependencies]
 idl-compiler-sys = { path = "idl-compiler-sys" }
+idl-compiler = { path = "idl-compiler" }
 cc = "1.0.79"
 
 [dependencies]
