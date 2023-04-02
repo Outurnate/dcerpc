@@ -1,4 +1,12 @@
-use std::{path::Path, process::Command, ffi::OsStr};
+mod run;
+
+use std::{path::Path, process::exit};
+
+use fork::{fork, Fork};
+use nix::{sys::wait::{waitpid, WaitStatus}, unistd::Pid};
+
+use crate::run::run_idl_compile;
+
 pub struct Builder
 {
   includes: Vec<String>,
@@ -87,60 +95,75 @@ impl Builder
     self
   }
 
-  pub fn build(self, command: impl AsRef<OsStr>)
+  pub fn build(self)
   {
-    let mut command = Command::new(command);
-    command.arg(self.idl);
-    command.arg("-header");
-    command.arg(self.header);
-    command.arg(if self.cepv { "-cepv" } else { "-no_cepv" });
-    command.arg(if self.mepv { "-mepv" } else { "-no_mepv" });
-    command.arg("-cc_cmd");
-    command.arg(&self.c_compiler);
-    command.arg("-cc_opt");
-    command.arg("-c -D_GNU_SOURCE -D_REENTRANT -D_POSIX_C_SOURCE=3");
-    command.arg("-cpp_cmd");
-    command.arg(self.c_compiler);
-    command.arg("-cpp_opt");
-    command.arg("-E -x c-header");
+    let mut args = Vec::new();
+    args.push(self.idl);
+    args.push("-header".to_owned());
+    args.push(self.header);
+    args.push((if self.cepv { "-cepv" } else { "-no_cepv" }).to_owned());
+    args.push((if self.mepv { "-mepv" } else { "-no_mepv" }).to_owned());
+    args.push("-cc_cmd".to_owned());
+    args.push(self.c_compiler.clone());
+    args.push("-cc_opt".to_owned());
+    args.push("-c -D_GNU_SOURCE -D_REENTRANT -D_POSIX_C_SOURCE=3".to_owned());
+    args.push("-cpp_cmd".to_owned());
+    args.push(self.c_compiler);
+    args.push("-cpp_opt".to_owned());
+    args.push("-E -x c-header".to_owned());
     for include in self.includes
     {
-      command.arg("-I");
-      command.arg(include);
+      args.push("-I".to_owned());
+      args.push(include);
     }
     if self.cstub.is_some() || self.sstub.is_some()
     {
-      command.arg("-keep");
-      command.arg("c_source");
+      args.push("-keep".to_owned());
+      args.push("c_source".to_owned());
     }
     
     if let Some(cstub) = self.cstub
     {
-      command.arg("-cstub");
-      command.arg(cstub);
+      args.push("-cstub".to_owned());
+      args.push(cstub);
     }
     else
     {
-      command.arg("-client");
-      command.arg("none");
+      args.push("-client".to_owned());
+      args.push("none".to_owned());
     }
 
     if let Some(sstub) = self.sstub
     {
-      command.arg("-sstub");
-      command.arg(sstub);
+      args.push("-sstub".to_owned());
+      args.push(sstub);
     }
     else
     {
-      command.arg("-server");
-      command.arg("none");
+      args.push("-server".to_owned());
+      args.push("none".to_owned());
     }
 
     if !self.preprocess
     {
-      command.arg("-no_cpp");
+      args.push("-no_cpp".to_owned());
     }
     
-    println!("{}", std::str::from_utf8(&command.output().unwrap().stderr).unwrap());
+    match fork().unwrap()
+    {
+      Fork::Parent(child_pid) => loop
+      {
+        match waitpid(Pid::from_raw(child_pid), None).unwrap()
+        {
+          WaitStatus::Exited(_, _) => break,
+          _ => continue
+        }
+      },
+      Fork::Child =>
+      {
+        run_idl_compile(args);
+        exit(1);
+      }
+    }
   }
 }

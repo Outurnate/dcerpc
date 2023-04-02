@@ -30,7 +30,7 @@ fn idl_compile(input: impl AsRef<Path>, output: impl AsRef<Path>)
     .cepv(true)
     .mepv(false)
     .c_compiler("/usr/bin/cc")
-    .build("../target/debug/idl-compiler");
+    .build();
 }
 
 fn idl_compile_client(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: impl AsRef<Path>)
@@ -43,7 +43,7 @@ fn idl_compile_client(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: 
     .mepv(false)
     .cepv(true)
     .c_compiler("/usr/bin/cc")
-    .build("../target/debug/idl-compiler");
+    .build();
 }
 
 fn idl_compile_server(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: impl AsRef<Path>, sstub: impl AsRef<Path>)
@@ -57,7 +57,7 @@ fn idl_compile_server(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: 
     .mepv(false)
     .cepv(true)
     .c_compiler("/usr/bin/cc")
-    .build("../target/debug/idl-compiler");
+    .build();
 }
 
 fn main()

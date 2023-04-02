@@ -5,3 +5,5 @@ edition = "2021"
 
 [dependencies]
 idl-compiler-sys.workspace = true
+nix = { version = "0.26.2", features = ["process"] }
+fork = "0.1.21"

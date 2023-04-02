@@ -12,3 +12,8 @@ idl-compiler = { path = "idl-compiler" }
 cc = "1.0.79"
 
 [dependencies]
+libdcerpc-sys = { path = "libdcerpc-sys" }
+byteorder = "1.4.3"
+thiserror = "1.0.38"
+hex = "0.4.3"
+bitflags = "2.0.0"
