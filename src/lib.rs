@@ -1,10 +1,11 @@
 use std::ffi::{NulError, CString};
 use std::ptr::null_mut;
 use std::fmt::Display;
-use hex::ToHex;
 use thiserror::Error;
+use crate::msgs::ERROR_MESSAGES;
 
 pub mod ms_icpr;
+mod msgs;
 
 #[derive(Error, Debug)]
 pub enum RpcError
@@ -23,24 +24,21 @@ pub enum Protocol
   LocalRPC
 }
 
+const STATUS_CODE_MASK: u32 = 0x00000FFF;
+const STATUS_CODE_SHIFT: u32 = 0;
+
+fn error_code(code: u32) -> String
+{
+  let status_code = (code & STATUS_CODE_MASK) >> STATUS_CODE_SHIFT;
+
+  return ERROR_MESSAGES[status_code as usize - 1].to_owned();
+}
+
 fn check_error(code: u32, func: impl AsRef<str> + Display) -> Result<(), RpcError>
 {
   if code != libdcerpc_sys::error_status_ok
   {
-    let mut message = [0u8 as i8; 160];
-    let mut status = 0i32;
-    unsafe
-    {
-      libdcerpc_sys::dce_error_inq_text(
-        code.into(),
-        &mut message as *mut i8,
-        &mut status);
-    }
-    let length = message.iter().position(|&c| c == 0u8 as i8).unwrap_or(message.len());
-    let message = message[0..length].iter().map(|c| c.to_owned() as u8).collect::<Vec<u8>>();
-    let message = String::from_utf8(message)
-      .unwrap_or_else(|err| format!("error decoding utf8 ({}): {}", err.utf8_error(), err.as_bytes().encode_hex::<String>()));
-    Err(RpcError::DceError(format!("error {} in call to {}: {} ({})", code, func, message, status)))
+    Err(RpcError::DceError(format!("error code {:#10X} in {}: {}", code, func, error_code(code))))
   }
   else
   {
@@ -138,8 +136,8 @@ impl RpcBinding
       libdcerpc_sys::rpc_binding_set_auth_info(
         self.handle,
         spn as *mut u8,
-        libdcerpc_sys::rpc_c_authn_level_connect,
-        libdcerpc_sys::rpc_c_authn_gss_negotiate,
+        libdcerpc_sys::rpc_c_protect_level_pkt_privacy,
+        libdcerpc_sys::rpc_c_authn_gss_mskrb,
         null_mut(),
         libdcerpc_sys::rpc_c_authz_name,
         &mut status);
