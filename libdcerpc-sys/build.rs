@@ -62,6 +62,8 @@ fn idl_compile_server(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: 
 
 fn main()
 {
+  system_deps::Config::new().probe().unwrap();
+  
   let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
   let dce_dir = out_dir.join("dce");
   let idl_dir = out_dir.join("idl");
