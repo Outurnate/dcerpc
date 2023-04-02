@@ -38,7 +38,7 @@ fn check_error(code: u32, func: impl AsRef<str> + Display) -> Result<(), RpcErro
 {
   if code != libdcerpc_sys::error_status_ok
   {
-    Err(RpcError::DceError(format!("error code {:#10X} in {}: {}", code, func, error_code(code))))
+    Err(RpcError::DceError(format!("error {} ({:#10X}) in {}", error_code(code), code, func)))
   }
   else
   {
