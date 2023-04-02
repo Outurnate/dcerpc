@@ -101,7 +101,7 @@ impl Builder
     args.push(self.idl);
     args.push("-header".to_owned());
     args.push(self.header);
-    args.push((if self.cepv { "-cepv" } else { "-no_cepv" }).to_owned());
+    if self.cepv { args.push("-cepv".to_owned()) }
     args.push((if self.mepv { "-mepv" } else { "-no_mepv" }).to_owned());
     args.push("-cc_cmd".to_owned());
     args.push(self.c_compiler.clone());

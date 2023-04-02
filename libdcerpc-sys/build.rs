@@ -60,6 +60,19 @@ fn idl_compile_server(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: 
     .build();
 }
 
+fn idl_compile_library(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: impl AsRef<Path>)
+{
+  idl_compiler::Builder::default() // -v ???
+    .include("src/include")
+    .idl(input)
+    .header(header)
+    .cstub(cstub)
+    .mepv(false)
+    .cepv(false)
+    .c_compiler("/usr/bin/cc")
+    .build();
+}
+
 fn main()
 {
   system_deps::Config::new().probe().unwrap();
@@ -374,10 +387,10 @@ fn main()
     .header("src/include/compat/dcerpc.h")
     .clang_arg("-Isrc/include")
     .clang_arg(format!("-I{}", out_dir.to_string_lossy()))
-    /*.allowlist_function("rpc_.*")
+    .allowlist_function("rpc_.*")
     .allowlist_function("dce_.*")
     .allowlist_var("rpc_.*")
-    .allowlist_var("error_status_ok")*/
+    .allowlist_var("error_status_ok")
     .parse_callbacks(Box::new(bindgen::CargoCallbacks));
 
   bindings = add_idl_library("idl/ms-icpr.idl", &idl_dir, &mut library, bindings);
@@ -394,8 +407,11 @@ fn add_idl_library(definition: impl AsRef<Path>, idl_dir: impl AsRef<Path>, libr
 {
   let header = idl_dir.as_ref().join(format!("{}.h", definition.as_ref().file_stem().unwrap().to_string_lossy()));
   let cstub = idl_dir.as_ref().join(format!("{}_cstub.c", definition.as_ref().file_stem().unwrap().to_string_lossy()));
-  idl_compile_client(definition, &header, &cstub);
+  idl_compile_library(definition, &header, &cstub);
 
   library.file(cstub);
-  bindings.header(header.to_string_lossy())
+  bindings
+    .header(header.to_string_lossy())
+    .allowlist_function("CertServerRequest")
+    .allowlist_var("ICertPassage_v0_0_c_ifspec")
 }
