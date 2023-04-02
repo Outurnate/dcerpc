@@ -6,7 +6,7 @@ links = "idl_compiler"
 
 [build-dependencies]
 cc.workspace = true
-system-deps = "6.0.4"
+system-deps.workspace = true
 
 [package.metadata.system-deps]
 libbsd = "0.11"
