@@ -63,7 +63,7 @@ fn idl_compile_server(input: impl AsRef<Path>, header: impl AsRef<Path>, cstub: 
 fn main()
 {
   system_deps::Config::new().probe().unwrap();
-  
+
   let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
   let dce_dir = out_dir.join("dce");
   let idl_dir = out_dir.join("idl");
@@ -341,7 +341,9 @@ fn main()
     &idl_dir.join("pickle_cstub.c").to_string_lossy(),
     &idl_dir.join("ep_cstub.c").to_string_lossy(),
     &idl_dir.join("mgmt_cstub.c").to_string_lossy(),
-    &idl_dir.join("mgmt_sstub.c").to_string_lossy()
+    &idl_dir.join("mgmt_sstub.c").to_string_lossy(),
+    &idl_dir.join("convc_cstub.c").to_string_lossy(),
+    &idl_dir.join("conv_cstub.c").to_string_lossy()
   ]);
   library.include(out_dir.clone());
   library.include("src/idl_lib");
