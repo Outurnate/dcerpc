@@ -1,9 +1,13 @@
+#![allow(clippy::suspicious_command_arg_space)]
+
 use std::env;
 use std::io::Write;
 use std::path::PathBuf;
 use std::path::Path;
 use std::fs::read_to_string;
 use std::fs::create_dir_all;
+use filetime::{set_file_mtime, FileTime};
+use walkdir::WalkDir;
 
 // really crummy, but oh well
 fn configure_file<'a>(input: impl AsRef<Path>, output: impl AsRef<Path>, replacements: impl IntoIterator<Item = (&'a str, &'a str)>) -> Result<(), std::io::Error>
@@ -401,6 +405,12 @@ fn main()
     .unwrap()
     .write_to_file(out_dir.join("bindings.rs"))
     .unwrap();
+
+  for entry in WalkDir::new(out_dir)
+  {
+    let entry = entry.unwrap();
+    set_file_mtime(entry.path(), FileTime::from_unix_time(0, 0)).unwrap();
+  }
 }
 
 fn add_idl_library(definition: impl AsRef<Path>, idl_dir: impl AsRef<Path>, library: &mut cc::Build, bindings: bindgen::Builder) -> bindgen::Builder
