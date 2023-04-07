@@ -103,6 +103,14 @@
 #include <ipnaf.h>
 #include <dg.h>
 
+#define HAVE_DLFCN_H 1
+#define AUTH_GSS_NEGOTIATE 1
+#define ENABLE_AUTH_GSS_NEGOTIATE
+#define ENABLE_PROT_NCACN
+#define ENABLE_PROT_NCADG
+#define ENABLE_NAF_IP
+#define ENABLE_NAF_NP
+
 #if defined(AUTH_GSS_NEGOTIATE) && AUTH_GSS_NEGOTIATE
 #include <gssauth.h>
 #endif
